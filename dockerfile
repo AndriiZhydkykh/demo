@@ -1,11 +1,12 @@
-# Используем официальный образ Poste.io
-FROM analogic/poste.io
+# Используем базовый образ с Inbucket
+FROM inbucket/inbucket:latest
 
-# Устанавливаем переменную среды для временной зоны (по желанию)
-ENV TZ=Europe/Prague
+# Указываем порты для Inbucket
+EXPOSE 9000 2500 1100
 
-# Открываем порты для почтовых служб
-EXPOSE 25 80 443 110 143 465 587 993 995
+# Необходимые переменные окружения
+ENV INBUCKET_USERNAME=username
+ENV INBUCKET_PASSWORD=password
 
-# Команда по умолчанию для запуска Poste.io
-CMD ["supervisord", "-c", "/etc/supervisord.conf"]
+# Команда для запуска Inbucket
+ENTRYPOINT ["/bin/inbucket"]
